@@ -24,3 +24,7 @@ Create a simple String calculator with a method: int Add(string numbers)
   “//@\n2@3@8” - Result: 13
 
 - A negative number should throw an exception: “Negatives not allowed”. The exception should list the number(s) that caused the exception
+
+
+![alt text](https://github.com/mbuchser/ios-string-calculator/blob/main/stringcalc_ui.jpg?raw=true)
+
