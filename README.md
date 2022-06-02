@@ -26,5 +26,7 @@ Create a simple String calculator with a method: int Add(string numbers)
 - A negative number should throw an exception: “Negatives not allowed”. The exception should list the number(s) that caused the exception
 
 
+Simple UI for the string calculator
+
 ![alt text](https://github.com/mbuchser/ios-string-calculator/blob/main/stringcalc_ui.jpg?raw=true)
 
