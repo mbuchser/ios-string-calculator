@@ -10,11 +10,12 @@ import Foundation
 
 class StringCalculator{
         
-    private static let delimiter_character : Character = "\n"
-    private static let command_sequence_regex = "//.\\n"
-    private static let double_forward_slash = "//"
-    private static let errorMsg_IncompleteCmdSequence = "Incomplete command sequence"
-    private static let errorMsg_NegativeNumbersFound = "Negative numbers found: "
+    let stringArrayConverter = StringArrayConverter()
+    let delimiter_character : Character = "\n"
+    let command_sequence_regex = "//.\\n"
+    let double_forward_slash = "//"
+    let errorMsg_IncompleteCmdSequence = "Incomplete command sequence"
+    let errorMsg_NegativeNumbersFound = "Negative numbers found: "
 
     enum InputErrors: Error {
         case ErrorNegativeNumbers(String)
@@ -23,27 +24,27 @@ class StringCalculator{
         case ErrorCommandSequenceIncomplete(String)
     }
     
-    class func add(_ numbers: String) throws -> Int {
+    func add(_ numbers: String) throws -> Int {
         if (findFirstOccurrence(of: double_forward_slash, in: numbers) != nil) {
             guard try isValidControlSequence(in: numbers) else {
                 throw InputErrors.ErrorCommandSequenceIncomplete(errorMsg_IncompleteCmdSequence)
             }
             let delimiterChar = findDelimiterChar(input: numbers)
             do {
-                return try addAllNumbersFromIntegerArray(StringArrayConverter.stringValuesToIntArrayWithoutControlSequence(numbers, withDelimiter: delimiterChar))
+                return try addAllNumbersFromIntegerArray(stringArrayConverter.stringValuesToIntArrayWithoutControlSequence(numbers, withDelimiter: delimiterChar))
             } catch {
                 throw error
             }
         } else {
             do{
-                return try addAllNumbersFromIntegerArray(StringArrayConverter.stringValuesToIntArray(numbers))
+                return try addAllNumbersFromIntegerArray(stringArrayConverter.stringValuesToIntArray(numbers))
             } catch {
                 throw error
             }
         }
     }
     
-    class func addAllNumbersFromIntegerArray(_ intNumberArray: [Int?]) throws -> Int {
+    func addAllNumbersFromIntegerArray(_ intNumberArray: [Int?]) throws -> Int {
         guard intNumberArray.filter({ $0 == nil }).isEmpty else {
             return 0
         }
@@ -53,15 +54,15 @@ class StringCalculator{
         return Int(intNumberArray.reduce(0) { $0 + $1! })
     }
     
-    class func findFirstOccurrence(of string: String, in text: String) -> String.Index? {
+    func findFirstOccurrence(of string: String, in text: String) -> String.Index? {
         return text.range(of: string)?.lowerBound
     }
     
-    class func findDelimiterChar(input: String) -> String {
+    func findDelimiterChar(input: String) -> String {
         return String(input[input.index(input.startIndex, offsetBy: 2)..<input.firstIndex(of: delimiter_character)!])
     }
     
-    class func isValidControlSequence(in str: String) throws -> Bool {
+    func isValidControlSequence(in str: String) throws -> Bool {
         let regex = try! NSRegularExpression(pattern: command_sequence_regex, options: [])
         let matches = regex.matches(in: str, options: [], range: NSRange(str.startIndex..., in: str))
         return (matches.first.map {
@@ -69,7 +70,7 @@ class StringCalculator{
         } != nil)
     }
     
-    class func findNegativeNumbers(in array: [Int?]) -> [Int] {
+    func findNegativeNumbers(in array: [Int?]) -> [Int] {
         var negativeNumbers: [Int] = []
         for number in array {
             if number! < 0 {

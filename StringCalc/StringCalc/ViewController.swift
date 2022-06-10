@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let stringCalculator = StringCalculator()
     @IBOutlet var errorLabel: UILabel!
     @IBOutlet var inputField: UITextField!
     @IBOutlet var resultTextfield: UITextField!
@@ -21,7 +22,7 @@ class ViewController: UIViewController {
         }
         var result = 0
         do {
-            try result = StringCalculator.add(inputField.text!)
+            try result = stringCalculator.add(inputField.text!)
             } catch {
                 errorLabel.text = error.localizedDescription
                 print(error)
